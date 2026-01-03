@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Bible v staré češtině</title>
+<style>
+    body { font-family: Georgia, serif; margin: 2em; line-height: 1.6; }
+    h1, h2, h3 { text-align: center; }
+    .verse { margin-bottom: 1em; }
+    .book, .chapter { margin-top: 2em; }
+    a { text-decoration: none; color: blue; }
+</style>
+</head>
+<body>
+<h1>Bible v staré češtině</h1>
+<nav id="book-links"></nav>
+<div id="bible"></div>
 
+<script>
+let bibleData = {};
+let oldCzechDict = {};
+
+// Load JSON files
+async function loadJSON(url) {
+    const res = await fetch(url);
+    return res.json();
+}
+
+// Translate verse word-by-word using dictionary
+function translateToOldCzech(text) {
+    return text.split(/\b/).map(word => {
+        const lower = word.toLowerCase();
+        return oldCzechDict[lower] ? oldCzechDict[lower] : word;
+    }).join('');
+}
+
+// Render navigation links for all books
+function renderBookLinks() {
+    const nav = document.getElementById('book-links');
+    for (const book in bibleData) {
+        const link = document.createElement('a');
+        link.href = '#' + book;
+        link.textContent = book;
+        link.style.marginRight = '10px';
+        nav.appendChild(link);
+    }
+}
+
+// Render the Bible
+function renderBible() {
+    const container = document.getElementById('bible');
+    for (const book in bibleData) {
+        const bookDiv = document.createElement('div');
+        bookDiv.className = 'book';
+        bookDiv.id = book;
+        const bookTitle = document.createElement('h2');
+        bookTitle.textContent = book;
+        bookDiv.appendChild(bookTitle);
+
+        const chapters = bibleData[book];
+        for (const chapter in chapters) {
+            const chapterDiv = document.createElement('div');
+            chapterDiv.className = 'chapter';
+            const chapterTitle = document.createElement('h3');
+            chapterTitle.textContent = 'Kapitola ' + chapter;
+            chapterDiv.appendChild(chapterTitle);
+
+            const verses = chapters[chapter];
+            for (const verse in verses) {
+                const verseDiv = document.createElement('div');
+                verseDiv.className = 'verse';
+                verseDiv.textContent = verse + ": " + translateToOldCzech(verses[verse]);
+                chapterDiv.appendChild(verseDiv);
+            }
+
+            bookDiv.appendChild(chapterDiv);
+        }
+
+        container.appendChild(bookDiv);
+    }
+}
+
+// Initialize
+async function init() {
+    bibleData = await loadJSON('bible.json');
+    oldCzechDict = await loadJSON('old_czech.json');
+    renderBookLinks();
+    renderBible();
+}
+
+init();
+</script>
+</body>
+</html>
