@@ -1,1 +1,16 @@
-
+{
+  "Genesis": {
+    "1": {
+      "1": "Na počátku stvořil Bůh nebe a zemi.",
+      "2": "A země byla pustá a prázdná, a tma byla nad hlubinou."
+    },
+    "2": {
+      "1": "Tak byly dokončeny nebe a země a všechen jejich zástup."
+    }
+  },
+  "Exodus": {
+    "1": {
+      "1": "A toto jsou jména synů Izraele, kteří přišli do Egypta."
+    }
+  }
+}
