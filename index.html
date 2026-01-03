@@ -1,22 +1,20 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Bible v staré češtině</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Bible v staré češtině</h1>
+
+<nav id="book-links"></nav>
+
 <input type="text" id="searchBox" placeholder="Hledej knihu, kapitolu nebo slovo...">
 <div id="searchResults"></div>
 
-<script>
-document.getElementById('searchBox').addEventListener('input', function() {
-    const query = this.value.toLowerCase();
-    const resultsDiv = document.getElementById('searchResults');
-    resultsDiv.innerHTML = '';
-    for (const book in bibleData) {
-        for (const chapter in bibleData[book]) {
-            for (const verse in bibleData[book][chapter]) {
-                const text = bibleData[book][chapter][verse].toLowerCase();
-                if (text.includes(query) || book.toLowerCase().includes(query)) {
-                    const div = document.createElement('div');
-                    div.innerHTML = `<a href="books/${book}.html#${chapter}">${book} ${chapter}:${verse}</a> - ${bibleData[book][chapter][verse]}`;
-                    resultsDiv.appendChild(div);
-                }
-            }
-        }
-    }
-});
-</script>
+<div id="bible"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
